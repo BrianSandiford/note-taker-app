@@ -1,11 +1,21 @@
 'use strict';
 let count = 1;
-const noteArray = [];
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.close-modal');
 const btnsOpenModal = document.querySelector('.show-modal');
 const modalText = document.querySelector('.modal-text');
+
+const updateTable = function (table, note) {
+  const row = table.insertRow(1);
+  const cell1 = row.insertCell(0);
+  cell1.innerHTML = `<td>
+    <h4>Note ${count}</h4>
+    <p class="fifty-chars">${note}</p>
+    <button class="show-modal" id="viewdetail">View Detail</button>
+  </td>`;
+  count++;
+};
 
 const openModal = function (fullNote) {
   modal.classList.remove('hidden');
@@ -24,30 +34,14 @@ document.querySelector('#addnote').addEventListener('click', function () {
   const table = document.getElementById('table');
   const a = String(document.getElementById('table').rows[1].textContent);
   const b = 'No notes added yet!';
-  const modal = document.querySelector('.modal');
   const overlay = document.querySelector('.overlay');
   const btnCloseModal = document.querySelector('.close-modal');
-  const btnsOpenModal = document.querySelector('.show-modal');
 
   if (a.includes(b)) {
     table.deleteRow(1);
-    const row = table.insertRow(1);
-    const cell1 = row.insertCell(0);
-    cell1.innerHTML = `<td>
-    <h4>Note ${count}</h4>
-    <p class="fifty-chars">${note}</p>
-    <button class="show-modal" id="viewdetail">View Detail</button>
-  </td>`;
-    count++;
+    updateTable(table, note);
   } else {
-    const row = table.insertRow(1);
-    const cell1 = row.insertCell(0);
-    cell1.innerHTML = `<td>
-    <h4>Note ${count}</h4>
-    <p class="fifty-chars">${note}</p>
-    <button class="show-modal" id="viewdetail">View Detail</button>
-  </td>`;
-    count++;
+    updateTable(table, note);
   }
 
   const allRows = document.querySelectorAll('tr');
@@ -59,7 +53,6 @@ document.querySelector('#addnote').addEventListener('click', function () {
         .addEventListener('click', function () {
           fullNote = allRows[i].querySelector('.fifty-chars').textContent;
           openModal(fullNote);
-          console.log(allRows[i].querySelector('.fifty-chars').textContent);
         });
     });
   }
